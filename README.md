@@ -28,7 +28,7 @@ Pending review and client approval, this project is an alpha release.
 
 ## Authors
 
-* **[Brendan Adkins]**(https://github.com/BrendanAdkins)
+* ** Brendan Adkins** - https://github.com/BrendanAdkins
 
 ## License
 
