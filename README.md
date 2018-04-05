@@ -8,7 +8,7 @@ Install the plugin on your WordPress site via the admin panel and place the requ
 
 ### Prerequisites
 
-WordPress
+WordPress 4.9 or later.
 
 ### Installing
 
@@ -16,20 +16,20 @@ If you're unfamiliar with the process of installing a custom plugin, please see 
 
 ## Running the tests
 
-Gotta write these.
-
-```
-For example
-```
+A test suite will be written at a later date before public release.
 
 ## Versioning
 
-Pending review and client approval, this project is an alpha release.
+This project follows semantic versioning. It is currently in version 1.0.0 and its first stable release will be 2.0.0.
 
 ## Authors
 
-* ** Brendan Adkins** - https://github.com/BrendanAdkins
+* **Brendan Adkins** - https://github.com/BrendanAdkins
 
 ## License
 
-This project is not currently licensed for reuse, but will be once the code is stable.
+This project is licensed under the GPL v2 or later.
+
+## Credits
+
+This project follows the structure of the [WordPress Plugin Boilerplate](https://github.com/DevinVinson/WordPress-Plugin-Boilerplate).
