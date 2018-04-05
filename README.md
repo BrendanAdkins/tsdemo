@@ -12,11 +12,11 @@ WordPress 4.9 or later.
 
 ### Installing
 
-If you're unfamiliar with the process of installing a custom plugin, please see the [WordPress Codex](https://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation) entry for assistance.
+Use the WP admin dashboard and upload a zipped version of this project. If you're unfamiliar with the process of installing a custom plugin, please see the [WordPress Codex](https://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation) entry for assistance.
 
-## Running the tests
+### Using
 
-A test suite will be written at a later date before public release.
+Insert the shortcode \[tsdemo_donation_form\] into a page or post to display the donation form.
 
 ## Versioning
 

@@ -99,5 +99,15 @@ class Tsdemo_Public {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/tsdemo-public.js', array( 'jquery' ), $this->version, false );
 
 	}
+	
+	/**
+	 * Parse out the donation form shortcode and replace it with the form template.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function render_donation_form($atts, $content = "") {
+		
+		return file_get_contents(plugin_dir_path( __FILE__ ). 'partials/form.html');
+	}
 
 }

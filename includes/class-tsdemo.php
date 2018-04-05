@@ -67,8 +67,8 @@ class Tsdemo {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		if ( defined( 'PLUGIN_NAME_VERSION' ) ) {
-			$this->version = PLUGIN_NAME_VERSION;
+		if ( defined( 'TS_DEMO_VERSION' ) ) {
+			$this->version = TS_DEMO_VERSION;
 		} else {
 			$this->version = '1.0.0';
 		}
@@ -172,7 +172,7 @@ class Tsdemo {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-
+		$this->loader->add_shortcode('tsdemo_donation_form', $plugin_public, 'render_donation_form');
 	}
 
 	/**
