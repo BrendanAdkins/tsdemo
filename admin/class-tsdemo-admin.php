@@ -99,5 +99,67 @@ class Tsdemo_Admin {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/tsdemo-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
+	
+	/**
+	 * Registers a custom post type for recording donation transactions.
+	 * Static since this is called during init.
+	 *
+	 * @since 1.0.0
+	 */
 
+	public static function new_tsdemo_donation() {
+		
+		$custom_name = 'tsdemo_donation';
+		
+		$opts = array();
+		$opts['can_export'] = TRUE;
+		$opts['capability_type'] = 'post';
+		$opts['description'] = '';
+		$opts['exclude_from_search'] = TRUE;
+		$opts['has_archive'] = FALSE;
+		$opts['hierarchical'] = FALSE;
+		$opts['map_meta_cap'] = TRUE;
+		$opts['menu_icon'] = '';
+		$opts['public'] = FALSE;
+		$opts['publicly_queryable'] = FALSE;
+		$opts['rewrite'] = FALSE;
+		$opts['show_in_admin_bar'] = FALSE;
+		$opts['show_in_menu'] = FALSE;
+		$opts['show_in_nav_menu'] = FALSE;
+		
+		register_post_type($custom_name, $opts);
+	 }
+	
+	/**
+	 * Registers metadata keys for custom post.
+	 * Static since this is called during init.
+	 *
+	 * @since 1.0.0
+	 */
+
+	public static function new_tsdemo_donation_meta() {
+		$amt_name = "_tsdemo_don_amt";
+		$amt_opts = array();
+		$amt_opts["type"] = "number";
+		$amt_opts["description"] = "The amount of a donation made through the TSDemo form";
+		$amt_opts["single"] = TRUE;
+		$amt_opts["show_in_rest"] = FALSE;
+		register_meta('post', $amt_name, $amt_opts);
+		
+		$status_name = "_tsdemo_don_status";
+		$status_opts = array();
+		$status_opts["type"] = "string";
+		$status_opts["description"] = "The status of a donation made through the TSDemo form";
+		$status_opts["single"] = TRUE;
+		$status_opts["show_in_rest"] = FALSE;
+		register_meta('post', $status_name, $status_opts);
+		
+		$donor_name = "_tsdemo_donor_name";
+		$donor_opts = array();
+		$donor_opts["type"] = "string";
+		$donor_opts["description"] = "The name of a donor using the TSDemo form";
+		$donor_opts["single"] = TRUE;
+		$donor_opts["show_in_rest"] = FALSE;
+		register_meta('post', $donor_name, $donor_opts);
+	}
 }

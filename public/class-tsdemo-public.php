@@ -107,6 +107,23 @@ class Tsdemo_Public {
 	 */
 	public static function render_donation_form($atts, $content = "") {
 		
+/*
+		$my_post = array(
+
+		  'post_status'	=> 'publish',
+		  'post_title' => 'donation test',
+		  'post_type' => 'tsdemo_donation',
+		  'meta_input'	=> array(
+		  	'_tsdemo_don_amt' => '2.00',
+		  	'_tsdemo_donor_name' => 'Generous Donor Failure',
+		  	'_tsdemo_don_status' => 'failed'
+		  	)
+		);
+		
+		$result = wp_insert_post($my_post, true);
+		print_r($result);
+*/
+		
 		return file_get_contents(plugin_dir_path( __FILE__ ). 'partials/form.html');
 	}
 
