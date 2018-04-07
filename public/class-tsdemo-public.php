@@ -61,18 +61,6 @@ class Tsdemo_Public {
 	 */
 	public function enqueue_styles() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Tsdemo_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Tsdemo_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/tsdemo-public.css', array(), $this->version, 'all' );
 
 	}
@@ -84,20 +72,15 @@ class Tsdemo_Public {
 	 */
 	public function enqueue_scripts() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Tsdemo_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Tsdemo_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/tsdemo-public.js', array( 'jquery' ), $this->version, false );
-
+		// TODO change time back to this->version
+		wp_enqueue_script($this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/tsdemo-public.js', array( 'jquery' ), time(), false);
+		wp_enqueue_script('stripe_checkout', "https://checkout.stripe.com/checkout.js");
+		$stripeSettingsData = array(
+		    'stripe_api_key'	=> "pk_test_X74EJiAxEY7uIPKWQCp18PEb",
+		    'stripe_site_name'	=> "Your Site",
+		    'stripe_amount_options'	=> [5,25,35,55,100]
+		);
+		wp_localize_script('stripe_checkout', 'php_vars', $stripeSettingsData);
 	}
 	
 	/**
@@ -123,8 +106,16 @@ class Tsdemo_Public {
 		$result = wp_insert_post($my_post, true);
 		print_r($result);
 */
-		
-		return file_get_contents(plugin_dir_path( __FILE__ ). 'partials/form.html');
+// 		include(plugin_dir_path( __FILE__ ). 'partials/form.php');
+// 		return file_get_contents(plugin_dir_path( __FILE__ ). 'partials/form.html');	
+
+		ob_start();
+		if (is_feed()) {
+			include(plugin_dir_path( __FILE__ ). 'partials/feed_form.php');
+		} else {
+			echo file_get_contents(plugin_dir_path( __FILE__ ). 'partials/form.html');
+		}
+		return ob_get_clean();
 	}
 
 }

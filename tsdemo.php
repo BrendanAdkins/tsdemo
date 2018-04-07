@@ -10,7 +10,7 @@
  * @wordpress-plugin
  * Plugin Name:       TSDemo
  * Plugin URI:        https://github.com/BrendanAdkins/tsdemo
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       A demo plugin that displays a donation form when triggered by a shortcode, processes donations through Stripe, and lists them in the admin panel.
  * Version:           1.0.0
  * Author:            Brendan Adkins
  * Author URI:        https://brendanadkins.com/

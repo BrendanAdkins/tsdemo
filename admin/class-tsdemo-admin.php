@@ -161,5 +161,13 @@ class Tsdemo_Admin {
 		$donor_opts["single"] = TRUE;
 		$donor_opts["show_in_rest"] = FALSE;
 		register_meta('post', $donor_name, $donor_opts);
+		
+		$id_name = "_tsdemo_transact_id";
+		$id_opts = array();
+		$id_opts["type"] = "string";
+		$id_opts["description"] = "The token ID returned from a Stripe transaction";
+		$id_opts["single"] = TRUE;
+		$id_opts["show_in_rest"] = FALSE;
+		register_meta('post', $id_name, $id_opts);
 	}
 }

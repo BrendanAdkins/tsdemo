@@ -8,7 +8,7 @@ Install the plugin on your WordPress site via the admin panel and place the requ
 
 ### Prerequisites
 
-WordPress 4.9 or later.
+WordPress 4.9 or later, running on a secure site (with a working https address).
 
 ### Installing
 
