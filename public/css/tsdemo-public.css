@@ -3,4 +3,14 @@
  * included in this file.
  */
  
+ #tsdemoDonationStripeContainer ul {
+	 list-style-type: none;
+ }
  
+ #tsdemoDonationStripeContainer label, #tsdemoDonationStripeContainer input {
+	 display: inline;
+ }
+ 
+#tsDemoDonationFieldOther {
+	 width: 5em;
+ }

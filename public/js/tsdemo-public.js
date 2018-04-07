@@ -17,15 +17,18 @@
 	var setupDonationRadioButtons = function() {
 		// If we have a set of possible donation amounts from settings, prepend them as radio options
 		$.each(php_vars.stripe_amount_options, function(index, value) {
-			var template = '<input type="radio" id="tsDemoDonationAmount'+index+'" name="donationAmount" value="'+value+'"';
+			var template = '<li>';
+			template += '<input type="radio" id="tsDemoDonationAmount'+index+'" name="donationAmount" value="'+value+'"';
 			if (index == 0) {
 				template += ' checked="checked"';
 				$('#tsDemoDonationFieldOther').attr('value', value);
+				$('#tsDemoDonationFieldOther').attr('disabled', 'disabled');
 				TSDemoNS.amount = value * 100;
 			}
 			template += '>\n';
 			template += '<label for="tsDemoDonationAmount'+index+'">$'+value+'.00</label>';
-			$(template).insertBefore("#tsDemoDonationAmountOther");
+			template += '</li>'
+			$(template).insertBefore("#tsDemoDonationAmountOtherItem");
 		});
 	}
 	

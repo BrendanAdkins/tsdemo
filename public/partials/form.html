@@ -1,7 +1,12 @@
 <div id="tsdemoDonationStripeContainer">
+	<h2>Donate Now!</h2>
 	<form id="tsdemoDonationStripeForm" action="/api/tsdemodonation" method="POST">
-		<input type="radio" id="tsDemoDonationAmountOther" name="donationAmount" value="X">
-		<label for="tsDemoDonationAmountX">Other</label> <input type="text" id="tsDemoDonationFieldOther" name="donationAmountOther">
+		<ul>
+			<li id="tsDemoDonationAmountOtherItem">
+				<input type="radio" id="tsDemoDonationAmountOther" name="donationAmount" value="X">
+				<label for="tsDemoDonationAmountX">Other</label> <input type="text" id="tsDemoDonationFieldOther" name="donationAmountOther">
+			</li>
+		</ul>
 		<button id="tsdemoDonateButton">Donate!</button>
 	</form>
 </div>
