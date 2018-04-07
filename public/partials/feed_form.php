@@ -1,0 +1,1 @@
+<div id="tsdemoFeedDonationForm"><a href="<?php echo get_permalink(); ?>">Donate Here</a></div>

@@ -158,6 +158,8 @@ class Tsdemo {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action('init', $plugin_admin, 'new_tsdemo_donation');
 		$this->loader->add_action('init', $plugin_admin, 'new_tsdemo_donation_meta');
+		$this->loader->add_action('admin_menu', $plugin_admin, 'add_tsdemo_options_page');
+		$this->loader->add_action('admin_init', $plugin_admin, 'register_tsdemo_settings');
 	}
 
 	/**

@@ -27,6 +27,9 @@ if ( ! defined( 'WPINC' ) ) {
 
 define( 'TS_DEMO_VERSION', '1.0.0' );
 
+define('TS_DEMO_DEFAULT_PAYMENTS','5,15,25,55,100');
+define('TS_DEMO_OPTION_PREFIX', 'tsdemo');
+
 /**
  * cf includes/class-tsdemo-activator.php
  */

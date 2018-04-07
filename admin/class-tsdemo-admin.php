@@ -39,6 +39,15 @@ class Tsdemo_Admin {
 	 * @var      string    $version    The current version of this plugin.
 	 */
 	private $version;
+	
+	/**
+	 * Prepended to option names to distinguish them within WordPress.
+	 *
+	 * @since	1.0.0
+	 * @access	private
+	 * @var		string	$option_prefix	The prefix for plugin settings.
+	 */
+	private $option_prefix;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -51,7 +60,7 @@ class Tsdemo_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
+		$this->option_prefix = TS_DEMO_OPTION_PREFIX;
 	}
 
 	/**
@@ -169,5 +178,108 @@ class Tsdemo_Admin {
 		$id_opts["single"] = TRUE;
 		$id_opts["show_in_rest"] = FALSE;
 		register_meta('post', $id_name, $id_opts);
+	}
+	
+	/**
+	 * Registers a options page for the admin dashboard.
+	 *
+	 * @since 1.0.0
+	 */
+	 
+	public function add_tsdemo_options_page() {
+		$this->plugin_screen_hook_suffix = add_options_page(
+			'TSDemo Settings',
+			'TSDemo Donation Form',
+			'manage_options',
+			$this->plugin_name,
+			array($this, 'display_options_page')
+		);
+	}
+	
+	/**
+	 * Callback for the options page hook, which picks the (empty) settings template out of the partials folder.
+	 *
+	 * @since 1.0.0
+	 */
+	
+	public function display_options_page() {
+		include_once 'partials/tsdemo-admin-display.php';
+	}
+	
+	/**
+	 * Specifies which options fields to register with WordPress.
+	 *
+	 * @since 1.0.0
+	 */
+	 
+	public function register_tsdemo_settings() {
+		register_setting(
+			$this->plugin_name,
+			$this->option_prefix.'_stripe_api_key'
+		);
+			
+		register_setting(
+			$this->plugin_name,
+			$this->option_prefix.'_donation_amounts'
+		);
+		
+		add_settings_section(
+			$this->option_prefix.'_general',
+			"Donation Settings",
+			array($this, 'register_options_section_callback'),
+			$this->plugin_name
+		);
+		
+		add_settings_field(
+			$this->option_prefix.'_stripe_api_key',
+			"Stripe API Key",
+			array($this, 'add_option_stripe_api_callback'),
+			$this->plugin_name,
+			$this->option_prefix.'_general',
+			array('label_for' => $this->option_prefix.'_stripe_api_key')
+		);
+		
+		add_settings_field(
+			$this->option_prefix.'_donation_amounts',
+			"Default Donation Amounts",
+			array($this, 'add_option_donation_amounts_callback'),
+			$this->plugin_name,
+			$this->option_prefix.'_general',
+			array('label_for' => $this->option_prefix.'_donation_amounts')
+		);
+	}
+	
+	/**
+	 * Callback for additional information on the settings section.
+	 * 
+	 * @since 1.0.0
+	 */
+	
+	public static function register_options_section_callback() {
+		echo "";
+	}
+	
+	/**
+	 * Callback for additional information on the Stripe API key setting.
+	 * 
+	 * @since 1.0.0
+	 */
+	
+	public function add_option_stripe_api_callback() {
+		$option_name = $this->option_prefix.'_stripe_api_key';
+		$option = get_option($option_name);
+		echo '<input type="text" name="'.$option_name.'" value="'.$option.'">';
+	}
+	
+	/**
+	 * Callback for additional information on the donation amount list setting.
+	 * 
+	 * @since 1.0.0
+	 */
+	
+	public function add_option_donation_amounts_callback() {
+		$option_name = $this->option_prefix.'_donation_amounts';
+		$option = get_option($option_name, TS_DEMO_DEFAULT_PAYMENTS);
+		echo '<input type="text" name="'.$option_name.'" value="'.$option.'">';
 	}
 }

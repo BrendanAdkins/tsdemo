@@ -76,9 +76,9 @@ class Tsdemo_Public {
 		wp_enqueue_script($this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/tsdemo-public.js', array( 'jquery' ), time(), false);
 		wp_enqueue_script('stripe_checkout', "https://checkout.stripe.com/checkout.js");
 		$stripeSettingsData = array(
-		    'stripe_api_key'	=> "pk_test_X74EJiAxEY7uIPKWQCp18PEb",
-		    'stripe_site_name'	=> "Your Site",
-		    'stripe_amount_options'	=> [5,25,35,55,100]
+		    'stripe_api_key'	=> get_option(TS_DEMO_OPTION_PREFIX.'_stripe_api_key'),
+		    'stripe_site_name'	=> get_bloginfo('name'),
+		    'stripe_amount_options'	=> explode(",", get_option(TS_DEMO_OPTION_PREFIX.'_donation_amounts'))
 		);
 		wp_localize_script('stripe_checkout', 'php_vars', $stripeSettingsData);
 	}
@@ -89,25 +89,6 @@ class Tsdemo_Public {
 	 * @since 1.0.0
 	 */
 	public static function render_donation_form($atts, $content = "") {
-		
-/*
-		$my_post = array(
-
-		  'post_status'	=> 'publish',
-		  'post_title' => 'donation test',
-		  'post_type' => 'tsdemo_donation',
-		  'meta_input'	=> array(
-		  	'_tsdemo_don_amt' => '2.00',
-		  	'_tsdemo_donor_name' => 'Generous Donor Failure',
-		  	'_tsdemo_don_status' => 'failed'
-		  	)
-		);
-		
-		$result = wp_insert_post($my_post, true);
-		print_r($result);
-*/
-// 		include(plugin_dir_path( __FILE__ ). 'partials/form.php');
-// 		return file_get_contents(plugin_dir_path( __FILE__ ). 'partials/form.html');	
 
 		ob_start();
 		if (is_feed()) {
