@@ -21,16 +21,6 @@
  * @author     Brendan Adkins <b@brendanadkins.com>
  */
 class Tsdemo_Deactivator {
-
-	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
-	 *
-	 * @since    1.0.0
-	 */
 	public static function deactivate() {
-
 	}
-
 }

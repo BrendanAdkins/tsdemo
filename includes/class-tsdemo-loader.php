@@ -149,5 +149,4 @@ class Tsdemo_Loader {
             add_shortcode( $hook['hook'], array( $hook['component'], $hook['callback'] ) );
         }
 	}
-
 }

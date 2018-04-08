@@ -23,7 +23,7 @@
 <?php
 	
 	$args = array( 
-                'post_type' => 'tsdemo_donation',
+                'post_type' => TS_DEMO_RECORD_TYPE,
                 'orderby' => 'date',
                 'order' => 'DESC',
                 'posts_per_page' => -1
@@ -37,10 +37,10 @@
 			$postID = get_the_ID();
 			echo '<tr>';
 			echo '<td>' . get_the_date() . '</td>';
-			echo '<td>' . get_post_meta($postID, '_tsdemo_donor_email', true) . '</td>';
-			echo '<td class="amount">' . get_post_meta($postID, '_tsdemo_don_amt', true) . '</td>';
-			echo '<td>' . get_post_meta($postID, '_tsdemo_don_status', true) . '</td>';
-			echo '<td>' . get_post_meta($postID, '_tsdemo_transact_id', true) . '</td>';
+			echo '<td>' . get_post_meta($postID, TS_DEMO_META_EMAIL, true) . '</td>';
+			echo '<td class="amount">' . get_post_meta($postID, TS_DEMO_META_AMOUNT, true) . '</td>';
+			echo '<td>' . get_post_meta($postID, TS_DEMO_META_STATUS, true) . '</td>';
+			echo '<td>' . get_post_meta($postID, TS_DEMO_META_TRANSACTION, true) . '</td>';
 			echo '</tr>';
 		}
 	} else {

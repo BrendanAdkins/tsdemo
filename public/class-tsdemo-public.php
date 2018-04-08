@@ -61,8 +61,7 @@ class Tsdemo_Public {
 	 */
 	public function enqueue_styles() {
 
-		// TODO change back to version
-		wp_enqueue_style($this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/tsdemo-public.css', array(), time(), 'all');
+		wp_enqueue_style($this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/tsdemo-public.css', array(), $this->version."0", 'all');
 	}
 
 	/**
@@ -72,14 +71,13 @@ class Tsdemo_Public {
 	 */
 	public function enqueue_scripts() {
 
-		// TODO change time back to this->version
-		wp_enqueue_script($this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/tsdemo-public.js', array( 'jquery' ), time(), false);
+		wp_enqueue_script($this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/tsdemo-public.js', array( 'jquery' ), $this->version."0", false);
 		wp_enqueue_script('stripe_checkout', "https://checkout.stripe.com/checkout.js");
 		$stripeSettingsData = array(
-		    'stripe_api_key'	=> get_option(TS_DEMO_OPTION_PREFIX.'_stripe_api_key'),
+		    'stripe_api_key'	=> get_option(TS_DEMO_OPTION_PREFIX.TS_DEMO_OPTION_KEY),
 		    'stripe_site_name'	=> get_bloginfo('name'),
-		    'stripe_amount_options'	=> explode(",", get_option(TS_DEMO_OPTION_PREFIX.'_donation_amounts')),
-		    'stripe_form_nonce' => wp_create_nonce('tsdemo_stripe_donation_nonce'),
+		    'stripe_amount_options'	=> explode(",", get_option(TS_DEMO_OPTION_PREFIX.TS_DEMO_OPTION_AMOUNTS)),
+		    'stripe_form_nonce' => wp_create_nonce(TS_DEMO_NONCE_KEY),
 		    'stripe_form_destination' => admin_url('admin-ajax.php'),
 		    'stripe_loader_image' => get_site_url(null, '/wp-admin/images/spinner-2x.gif'),
 		    'thank_you_message' => file_get_contents(plugin_dir_path( __FILE__ ). 'partials/thankyou.html'),
@@ -120,7 +118,7 @@ class Tsdemo_Public {
 	 */
 	public function handle_donation_form_post() {
 		
-		if (!wp_verify_nonce($_REQUEST["wpNonce"], "tsdemo_stripe_donation_nonce")) {
+		if (!wp_verify_nonce($_REQUEST["wpNonce"], TS_DEMO_NONCE_KEY)) {
 			exit("invalid");
 		}
 		
@@ -132,7 +130,7 @@ class Tsdemo_Public {
 		require_once(TS_DEMO_STRIPE_PATH . '/init.php');
 		
 		// fetch key from options
-		$secret_key = get_option(TS_DEMO_OPTION_PREFIX.'_stripe_secret_key');	
+		$secret_key = get_option(TS_DEMO_OPTION_PREFIX.TS_DEMO_OPTION_SECRET);	
 	   
 		$result = array();
 		$transaction_id = "";
@@ -160,12 +158,12 @@ class Tsdemo_Public {
 		$donation_record = array(
 			'post_status'	=> 'publish',
 			'post_title' => 'donation test',
-			'post_type' => 'tsdemo_donation',
+			'post_type' => TS_DEMO_RECORD_TYPE,
 			'meta_input'	=> array(
-				'_tsdemo_don_amt' => '$'.$recorded_amount,
-				'_tsdemo_donor_email' => $_REQUEST['donorEmail'],
-				'_tsdemo_don_status' => $result["status"],
-				'_tsdemo_transact_id' => $transaction_id
+				TS_DEMO_META_AMOUNT => '$'.$recorded_amount,
+				TS_DEMO_META_EMAIL => $_REQUEST['donorEmail'],
+				TS_DEMO_META_STATUS => $result["status"],
+				TS_DEMO_META_TRANSACTION => $transaction_id
 			)
  		);
  		

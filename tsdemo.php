@@ -31,6 +31,16 @@ define('TS_DEMO_DEFAULT_PAYMENTS','5,15,25,55,100');
 define('TS_DEMO_OPTION_PREFIX', 'tsdemo');
 define('TS_DEMO_STRIPE_PATH', plugin_dir_path( __FILE__ ) . "vendor/stripe/");
 
+define('TS_DEMO_RECORD_TYPE', "tsdemo_donation");
+define('TS_DEMO_META_AMOUNT', "_tsdemo_don_amt");
+define('TS_DEMO_META_STATUS', "_tsdemo_don_status");
+define('TS_DEMO_META_EMAIL', "_tsdemo_donor_email");
+define('TS_DEMO_META_TRANSACTION', "_tsdemo_transact_id");
+define('TS_DEMO_NONCE_KEY', "tsdemo_stripe_donation_nonce");
+define('TS_DEMO_OPTION_SECRET', '_stripe_secret_key');
+define('TS_DEMO_OPTION_KEY', '_stripe_api_key');
+define('TS_DEMO_OPTION_AMOUNTS', '_donation_amounts');
+
 /**
  * cf includes/class-tsdemo-activator.php
  */

@@ -81,8 +81,8 @@ class Tsdemo_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		 // TODO fix
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/tsdemo-admin.css', array(), time(), 'all' );
+		 
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/tsdemo-admin.css', array(), $this->version."0", 'all' );
 
 	}
 
@@ -105,7 +105,7 @@ class Tsdemo_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/tsdemo-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/tsdemo-admin.js', array( 'jquery' ), $this->version."0", false );
 	}
 	
 	/**
@@ -117,7 +117,7 @@ class Tsdemo_Admin {
 
 	public static function new_tsdemo_donation() {
 		
-		$custom_name = 'tsdemo_donation';
+		$custom_name = TS_DEMO_RECORD_TYPE;
 		
 		$opts = array();
 		$opts['can_export'] = TRUE;
@@ -146,7 +146,7 @@ class Tsdemo_Admin {
 	 */
 
 	public static function new_tsdemo_donation_meta() {
-		$amt_name = "_tsdemo_don_amt";
+		$amt_name = TS_DEMO_META_AMOUNT;
 		$amt_opts = array();
 		$amt_opts["type"] = "number";
 		$amt_opts["description"] = "The amount of a donation made through the TSDemo form";
@@ -154,7 +154,7 @@ class Tsdemo_Admin {
 		$amt_opts["show_in_rest"] = FALSE;
 		register_meta('post', $amt_name, $amt_opts);
 		
-		$status_name = "_tsdemo_don_status";
+		$status_name = TS_DEMO_META_STATUS;
 		$status_opts = array();
 		$status_opts["type"] = "string";
 		$status_opts["description"] = "The status of a donation made through the TSDemo form";
@@ -162,7 +162,7 @@ class Tsdemo_Admin {
 		$status_opts["show_in_rest"] = FALSE;
 		register_meta('post', $status_name, $status_opts);
 		
-		$donor_email = "_tsdemo_donor_email";
+		$donor_email = TS_DEMO_META_EMAIL;
 		$donor_opts = array();
 		$donor_opts["type"] = "string";
 		$donor_opts["description"] = "The email of a donor using the TSDemo form";
@@ -170,7 +170,7 @@ class Tsdemo_Admin {
 		$donor_opts["show_in_rest"] = FALSE;
 		register_meta('post', $donor_email, $donor_opts);
 		
-		$id_name = "_tsdemo_transact_id";
+		$id_name = TS_DEMO_META_TRANSACTION;
 		$id_opts = array();
 		$id_opts["type"] = "string";
 		$id_opts["description"] = "The token ID returned from a Stripe transaction";
@@ -240,17 +240,17 @@ class Tsdemo_Admin {
 	public function register_tsdemo_settings() {
 		register_setting(
 			$this->plugin_name,
-			$this->option_prefix.'_stripe_api_key'
+			$this->option_prefix.TS_DEMO_OPTION_KEY
 		);
 		
 		register_setting(
 			$this->plugin_name,
-			$this->option_prefix.'_stripe_secret_key'
+			$this->option_prefix.TS_DEMO_OPTION_SECRET
 		);
 			
 		register_setting(
 			$this->plugin_name,
-			$this->option_prefix.'_donation_amounts'
+			$this->option_prefix.TS_DEMO_OPTION_AMOUNTS
 		);
 		
 		add_settings_section(
@@ -261,30 +261,30 @@ class Tsdemo_Admin {
 		);
 		
 		add_settings_field(
-			$this->option_prefix.'_stripe_api_key',
+			$this->option_prefix.TS_DEMO_OPTION_KEY,
 			"Stripe Publishable API Key",
 			array($this, 'add_option_stripe_api_callback'),
 			$this->plugin_name,
 			$this->option_prefix.'_general',
-			array('label_for' => $this->option_prefix.'_stripe_api_key')
+			array('label_for' => $this->option_prefix.TS_DEMO_OPTION_KEY)
 		);
 		
 		add_settings_field(
-			$this->option_prefix.'_stripe_secret_key',
+			$this->option_prefix.TS_DEMO_OPTION_SECRET,
 			"Stripe Secret Key",
 			array($this, 'add_option_stripe_secret_callback'),
 			$this->plugin_name,
 			$this->option_prefix.'_general',
-			array('label_for' => $this->option_prefix.'_stripe_secret_key')
+			array('label_for' => $this->option_prefix.TS_DEMO_OPTION_SECRET)
 		);
 		
 		add_settings_field(
-			$this->option_prefix.'_donation_amounts',
+			$this->option_prefix.TS_DEMO_OPTION_AMOUNTS,
 			"Default Donation Amounts",
 			array($this, 'add_option_donation_amounts_callback'),
 			$this->plugin_name,
 			$this->option_prefix.'_general',
-			array('label_for' => $this->option_prefix.'_donation_amounts')
+			array('label_for' => $this->option_prefix.TS_DEMO_OPTION_AMOUNTS)
 		);
 	}
 	
@@ -305,7 +305,7 @@ class Tsdemo_Admin {
 	 */
 	
 	public function add_option_stripe_api_callback() {
-		$option_name = $this->option_prefix.'_stripe_api_key';
+		$option_name = $this->option_prefix.TS_DEMO_OPTION_KEY;
 		$option = get_option($option_name);
 		echo '<input type="text" name="'.$option_name.'" value="'.$option.'">';
 	}
@@ -317,7 +317,7 @@ class Tsdemo_Admin {
 	 */
 	
 	public function add_option_stripe_secret_callback() {
-		$option_name = $this->option_prefix.'_stripe_secret_key';
+		$option_name = $this->option_prefix.TS_DEMO_OPTION_SECRET;
 		$option = get_option($option_name);
 		echo '<input type="text" name="'.$option_name.'" value="'.$option.'">';
 	}
@@ -329,7 +329,7 @@ class Tsdemo_Admin {
 	 */
 	
 	public function add_option_donation_amounts_callback() {
-		$option_name = $this->option_prefix.'_donation_amounts';
+		$option_name = $this->option_prefix.TS_DEMO_OPTION_AMOUNTS;
 		$option = get_option($option_name, TS_DEMO_DEFAULT_PAYMENTS);
 		echo '<input type="text" name="'.$option_name.'" value="'.$option.'">';
 	}
