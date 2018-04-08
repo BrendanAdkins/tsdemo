@@ -139,7 +139,7 @@ class Tsdemo {
 
 		$plugin_i18n = new Tsdemo_i18n();
 
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
+		$this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
 
 	}
 
@@ -154,8 +154,8 @@ class Tsdemo {
 
 		$plugin_admin = new Tsdemo_Admin( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
+		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
 		$this->loader->add_action('init', $plugin_admin, 'new_tsdemo_donation');
 		$this->loader->add_action('init', $plugin_admin, 'new_tsdemo_donation_meta');
 		$this->loader->add_action('admin_menu', $plugin_admin, 'add_tsdemo_options_page');
@@ -173,9 +173,11 @@ class Tsdemo {
 
 		$plugin_public = new Tsdemo_Public( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
+		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
 		$this->loader->add_shortcode('tsdemo_donation_form', $plugin_public, 'render_donation_form');
+		$this->loader->add_action('wp_ajax_tsdemo', $plugin_public, 'handle_donation_form_post');
+		$this->loader->add_action('wp_ajax_nopriv_tsdemo', $plugin_public, 'handle_donation_form_post');
 	}
 
 	/**

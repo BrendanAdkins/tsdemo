@@ -1,6 +1,8 @@
 <div id="tsdemoDonationStripeContainer">
-	<h2>Donate Now!</h2>
-	<form id="tsdemoDonationStripeForm" action="/api/tsdemodonation" method="POST">
+	<form id="tsdemoDonationStripeForm" action="#" method="POST">
+		<h2>Donate Now!</h2>
+		<input type="hidden" id="tsdemoDonationStripeNonce" name="wpNonce" value="">
+		<input type="hidden" id="tsdemoDonationStripeToken" name="donationToken" value="">
 		<ul>
 			<li id="tsDemoDonationAmountOtherItem">
 				<input type="radio" id="tsDemoDonationAmountOther" name="donationAmount" value="X">
@@ -9,4 +11,9 @@
 		</ul>
 		<button id="tsdemoDonateButton">Donate!</button>
 	</form>
+	<div id="tsdemoDonationSpinner">
+		<div class="loadingSpinner"></div>
+	</div>
+	<div id="tsdemoDonationComplete">
+	</div>
 </div>

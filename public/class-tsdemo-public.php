@@ -79,10 +79,23 @@ class Tsdemo_Public {
 		$stripeSettingsData = array(
 		    'stripe_api_key'	=> get_option(TS_DEMO_OPTION_PREFIX.'_stripe_api_key'),
 		    'stripe_site_name'	=> get_bloginfo('name'),
-		    'stripe_amount_options'	=> explode(",", get_option(TS_DEMO_OPTION_PREFIX.'_donation_amounts'))
+		    'stripe_amount_options'	=> explode(",", get_option(TS_DEMO_OPTION_PREFIX.'_donation_amounts')),
+		    'stripe_form_nonce' => wp_create_nonce('tsdemo_stripe_donation_nonce'),
+		    'stripe_form_destination' => admin_url('admin-ajax.php'),
+		    'stripe_loader_image' => get_site_url(null, '/wp-admin/images/spinner-2x.gif'),
+		    'thank_you_message' => file_get_contents(plugin_dir_path( __FILE__ ). 'partials/thankyou.html'),
+		    'uh_oh_message' => file_get_contents(plugin_dir_path( __FILE__ ). 'partials/uhoh.html')
 		);
 		wp_localize_script('stripe_checkout', 'php_vars', $stripeSettingsData);
 	}
+	
+	/**
+	 * Store a flag to ensure that the donation form is only displayed once per page,
+	 * since the form elements are intended to have unique IDs.
+	 *
+	 * @since 1.0.0
+	 */
+	private static $form_has_rendered = false;
 	
 	/**
 	 * Parse out the donation form shortcode and replace it with the form template.
@@ -90,14 +103,44 @@ class Tsdemo_Public {
 	 * @since 1.0.0
 	 */
 	public static function render_donation_form($atts, $content = "") {
-
+		
 		ob_start();
-		if (is_feed()) {
-			include(plugin_dir_path( __FILE__ ). 'partials/feed_form.php');
+		if (is_feed() || self::$form_has_rendered) {
+			include(plugin_dir_path( __FILE__ ). 'partials/donation_link.php');
 		} else {
 			echo file_get_contents(plugin_dir_path( __FILE__ ). 'partials/form.html');
+			self::$form_has_rendered = true;
 		}
 		return ob_get_clean();
+	}
+	
+	/**
+	 * Handle the result of a POST (via ajax) through the donation form once Stripe has processed user data
+	 *
+	 * @since 1.0.0
+	 */
+	public function handle_donation_form_post() {
+		
+	   if (!wp_verify_nonce($_REQUEST["wpNonce"], "tsdemo_stripe_donation_nonce")) {
+	      exit("invalid");
+	   }
+	
+	   sleep(10);
+	
+	   $token = $_REQUEST["donationToken"];
+	   
+	   $result = array("yes_token" => $token);
+	
+	   // Quick check to make sure this is an async request
+	   if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+		   
+	      $result = json_encode($result);
+	      echo $result;
+	   } else {
+	      header("Location: ".$_SERVER["HTTP_REFERER"]);
+	   }
+	
+	   die();
 	}
 
 }

@@ -8,8 +8,8 @@
 		  image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
 		  locale: 'auto',
 		  token: function(token) {
-		    console.log("got token id "+token.id);
-		    // Get the token ID to your server-side code for use.
+		    $("#tsdemoDonationStripeToken").val(token.id);
+		    $("#tsdemoDonationStripeForm").submit();
 		  }
 		});
 	}
@@ -32,6 +32,11 @@
 		});
 	}
 	
+	var setupFormValues = function() {
+		$("#tsdemoDonationStripeForm").attr("action", php_vars.stripe_form_destination);
+		$("#tsdemoDonationStripeNonce").val(php_vars.stripe_form_nonce);
+	}
+	
 	var setupJQHandlers = function() {
 		// Set up a handler for when radio buttons change to update amount
 		$('input[type=radio][name=donationAmount]').change(function() {
@@ -39,7 +44,7 @@
 	        if (this.id == 'tsDemoDonationAmountOther') {
 		        $("#tsDemoDonationFieldOther").removeAttr("disabled");
             } else {
-		        $("#tsDemoDonationFieldOther").attr("value", this.value).attr("disabled", "disabled");
+		        $("#tsDemoDonationFieldOther").attr("disabled", "disabled").val(this.value);
 		        TSDemoNS.amount = this.value * 100;
             }
 	    });
@@ -61,6 +66,42 @@
 		    return false;
 		    // Popup will submit form on completion
 		});
+		
+		// Look for form submission and override it
+		$('form').submit(function(e) {
+
+	        var formData = {
+	            "wpNonce": $("#tsdemoDonationStripeNonce").val(),
+	            "donationToken": $("#tsdemoDonationStripeToken").val(),
+	            "action": "tsdemo"
+	        };
+	
+	        // send the request
+	        $.ajax({
+	            type: 'POST',
+	            url: $("#tsdemoDonationStripeForm").attr("action"),
+	            data: formData,
+	            dataType: 'json',
+	            encode: true,
+	            beforeSend: function() {
+		            $("#tsdemoDonationSpinner .loadingSpinner").html('<img src="'+php_vars.stripe_loader_image+'" alt="Loading...">');
+			        $("#tsdemoDonationSpinner").show();
+			        $("#tsdemoDonationComplete").hide();
+			        $("#tsdemoDonationStripeForm").hide();
+			    }
+	        }).done(function(data) {
+		        console.log("got response from form submission:");
+                console.log(data);
+                $("#tsdemoDonationSpinner").hide();
+		        $("#tsdemoDonationComplete").html(php_vars.thank_you_message).show();
+	        }).fail(function() {
+                $("#tsdemoDonationSpinner").hide();
+		        $("#tsdemoDonationComplete").html(php_vars.uh_oh_message).show();
+		        $("#tsdemoDonationStripeForm").show();
+	        });
+	
+	        e.preventDefault();
+	    });
 	}
 	
 	// On DOM load, run setup functions
@@ -70,6 +111,7 @@
 		window.TSDemoNS = {}
 		
 		setupStripeHandler();
+		setupFormValues();
 		setupDonationRadioButtons();
 		setupJQHandlers();
 		

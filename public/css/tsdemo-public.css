@@ -3,14 +3,29 @@
  * included in this file.
  */
  
- #tsdemoDonationStripeContainer ul {
-	 list-style-type: none;
- }
- 
- #tsdemoDonationStripeContainer label, #tsdemoDonationStripeContainer input {
-	 display: inline;
- }
- 
+#tsdemoDonationStripeContainer ul {
+	list-style-type: none;
+}
+
+#tsdemoDonationStripeContainer label, #tsdemoDonationStripeContainer input {
+	display: inline;
+}
+
 #tsDemoDonationFieldOther {
-	 width: 5em;
- }
+	width: 5em;
+}
+
+#tsdemoDonationSpinner {
+	display: none;
+}
+
+#tsdemoDonationStripeContainer div.loadingSpinner {
+	background-repeat: no-repeat;
+	margin: 20px auto;
+	width: 40px;
+	height: 40px;
+}
+
+#tsdemoDonationStripeContainer h2, #tsdemoDonationStripeContainer p {
+	text-align: center;
+}

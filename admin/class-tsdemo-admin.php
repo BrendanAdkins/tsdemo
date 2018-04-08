@@ -217,6 +217,11 @@ class Tsdemo_Admin {
 			$this->plugin_name,
 			$this->option_prefix.'_stripe_api_key'
 		);
+		
+		register_setting(
+			$this->plugin_name,
+			$this->option_prefix.'_stripe_secret_key'
+		);
 			
 		register_setting(
 			$this->plugin_name,
@@ -232,11 +237,20 @@ class Tsdemo_Admin {
 		
 		add_settings_field(
 			$this->option_prefix.'_stripe_api_key',
-			"Stripe API Key",
+			"Stripe Publishable API Key",
 			array($this, 'add_option_stripe_api_callback'),
 			$this->plugin_name,
 			$this->option_prefix.'_general',
 			array('label_for' => $this->option_prefix.'_stripe_api_key')
+		);
+		
+		add_settings_field(
+			$this->option_prefix.'_stripe_secret_key',
+			"Stripe Secret Key",
+			array($this, 'add_option_stripe_secret_callback'),
+			$this->plugin_name,
+			$this->option_prefix.'_general',
+			array('label_for' => $this->option_prefix.'_stripe_secret_key')
 		);
 		
 		add_settings_field(
@@ -260,13 +274,25 @@ class Tsdemo_Admin {
 	}
 	
 	/**
-	 * Callback for additional information on the Stripe API key setting.
+	 * Callback for additional information on the Stripe public API key setting.
 	 * 
 	 * @since 1.0.0
 	 */
 	
 	public function add_option_stripe_api_callback() {
 		$option_name = $this->option_prefix.'_stripe_api_key';
+		$option = get_option($option_name);
+		echo '<input type="text" name="'.$option_name.'" value="'.$option.'">';
+	}
+	
+	/**
+	 * Callback for additional information on the Stripe secret API key setting.
+	 * 
+	 * @since 1.0.0
+	 */
+	
+	public function add_option_stripe_secret_callback() {
+		$option_name = $this->option_prefix.'_stripe_secret_key';
 		$option = get_option($option_name);
 		echo '<input type="text" name="'.$option_name.'" value="'.$option.'">';
 	}
