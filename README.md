@@ -12,7 +12,7 @@ WordPress 4.9 or later, running on a secure site (with an https address).
 
 ### Installing
 
-Use the WP admin dashboard and upload a zipped version of this project. If you're unfamiliar with the process of installing a custom plugin, please see the [WordPress Codex](https://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation) entry for assistance.
+Use the WP admin dashboard and upload a zipped version of this project. If you're unfamiliar with the process of installing a custom plugin, please see the [WordPress Codex](https://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation) entry for assistance. Finally, activate the plugin from the Plugins menu page on the dashboard.
 
 ### Settings
 
@@ -21,6 +21,10 @@ You must add your Stripe API publishable and secret API keys, found through the 
 ### Using
 
 Insert the shortcode \[tsdemo_donation_form\] into a page or post to display the donation form.
+
+### Testing
+
+Use credit card number 4242 4242 4242 4242 to test a successful donation, or 4000 0000 0000 0341 to test a valid card number that leads to a failed charge attempt.
 
 ### Records
 
