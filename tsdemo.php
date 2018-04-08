@@ -29,6 +29,7 @@ define( 'TS_DEMO_VERSION', '1.0.0' );
 
 define('TS_DEMO_DEFAULT_PAYMENTS','5,15,25,55,100');
 define('TS_DEMO_OPTION_PREFIX', 'tsdemo');
+define('TS_DEMO_STRIPE_PATH', plugin_dir_path( __FILE__ ) . "vendor/stripe-php-6.5.0/");
 
 /**
  * cf includes/class-tsdemo-activator.php

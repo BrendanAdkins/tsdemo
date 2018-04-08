@@ -62,8 +62,7 @@ class Tsdemo_Public {
 	public function enqueue_styles() {
 
 		// TODO change back to version
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/tsdemo-public.css', array(), time(), 'all' );
-
+		wp_enqueue_style($this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/tsdemo-public.css', array(), time(), 'all');
 	}
 
 	/**
@@ -121,26 +120,66 @@ class Tsdemo_Public {
 	 */
 	public function handle_donation_form_post() {
 		
-	   if (!wp_verify_nonce($_REQUEST["wpNonce"], "tsdemo_stripe_donation_nonce")) {
-	      exit("invalid");
-	   }
-	
-	   sleep(10);
-	
-	   $token = $_REQUEST["donationToken"];
+		if (!wp_verify_nonce($_REQUEST["wpNonce"], "tsdemo_stripe_donation_nonce")) {
+			exit("invalid");
+		}
+		
+		$token = $_REQUEST["donationToken"];
+		
+		global $stripe_options;
+		
+		// load Stripe libraries
+		require_once(TS_DEMO_STRIPE_PATH . '/init.php');
+		
+		// fetch key from options
+		$secret_key = get_option(TS_DEMO_OPTION_PREFIX.'_stripe_secret_key');	
 	   
-	   $result = array("yes_token" => $token);
-	
-	   // Quick check to make sure this is an async request
-	   if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-		   
-	      $result = json_encode($result);
-	      echo $result;
-	   } else {
-	      header("Location: ".$_SERVER["HTTP_REFERER"]);
-	   }
-	
-	   die();
+		$result = array();
+		$transaction_id = "";
+		
+		// make charge attempt
+		try {
+			\Stripe\Stripe::setApiKey($secret_key);
+			$charge = \Stripe\Charge::create(array(
+					'amount' => $_REQUEST["donationAmount"],
+					'currency' => 'usd',
+					'source' => $token
+				)
+			);
+		
+			// successful payment
+			$result["status"] = "success";
+			$transaction_id = $charge["id"];
+		} catch (Exception $e) {
+			// failed payment
+			$result["status"] = "failure";
+		}
+		
+		// Record donation, either successful or failed, as a custom record
+		$recorded_amount = $_REQUEST["donationAmount"] / 100;
+		$donation_record = array(
+			'post_status'	=> 'publish',
+			'post_title' => 'donation test',
+			'post_type' => 'tsdemo_donation',
+			'meta_input'	=> array(
+				'_tsdemo_don_amt' => '$'.$recorded_amount,
+				'_tsdemo_donor_email' => $_REQUEST['donorEmail'],
+				'_tsdemo_don_status' => $result["status"],
+				'_tsdemo_transact_id' => $transaction_id
+			)
+ 		);
+ 		
+ 		wp_insert_post($donation_record);
+		
+		// Quick check to make sure this is an async request
+		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+			$result = json_encode($result);
+			echo $result;
+		} else {
+			header("Location: ".$_SERVER["HTTP_REFERER"]);
+		}
+		
+		die();
 	}
 
 }

@@ -106,7 +106,6 @@ class Tsdemo_Admin {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/tsdemo-admin.js', array( 'jquery' ), $this->version, false );
-
 	}
 	
 	/**
@@ -163,13 +162,13 @@ class Tsdemo_Admin {
 		$status_opts["show_in_rest"] = FALSE;
 		register_meta('post', $status_name, $status_opts);
 		
-		$donor_name = "_tsdemo_donor_name";
+		$donor_email = "_tsdemo_donor_email";
 		$donor_opts = array();
 		$donor_opts["type"] = "string";
-		$donor_opts["description"] = "The name of a donor using the TSDemo form";
+		$donor_opts["description"] = "The email of a donor using the TSDemo form";
 		$donor_opts["single"] = TRUE;
 		$donor_opts["show_in_rest"] = FALSE;
-		register_meta('post', $donor_name, $donor_opts);
+		register_meta('post', $donor_email, $donor_opts);
 		
 		$id_name = "_tsdemo_transact_id";
 		$id_opts = array();

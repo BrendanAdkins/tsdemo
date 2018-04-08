@@ -9,6 +9,7 @@
 		  locale: 'auto',
 		  token: function(token) {
 		    $("#tsdemoDonationStripeToken").val(token.id);
+		    $("#tsdemoDonationStripeEmail").val(token.email);
 		    $("#tsdemoDonationStripeForm").submit();
 		  }
 		});
@@ -73,6 +74,8 @@
 	        var formData = {
 	            "wpNonce": $("#tsdemoDonationStripeNonce").val(),
 	            "donationToken": $("#tsdemoDonationStripeToken").val(),
+	            "donorEmail": $("#tsdemoDonationStripeEmail").val(),
+	            "donationAmount": TSDemoNS.amount,
 	            "action": "tsdemo"
 	        };
 	
@@ -90,10 +93,14 @@
 			        $("#tsdemoDonationStripeForm").hide();
 			    }
 	        }).done(function(data) {
-		        console.log("got response from form submission:");
-                console.log(data);
-                $("#tsdemoDonationSpinner").hide();
-		        $("#tsdemoDonationComplete").html(php_vars.thank_you_message).show();
+                if (data["status"] == "success") {
+	                $("#tsdemoDonationSpinner").hide();
+			        $("#tsdemoDonationComplete").html(php_vars.thank_you_message).show();
+		        } else {
+	                $("#tsdemoDonationSpinner").hide();
+			        $("#tsdemoDonationComplete").html(php_vars.uh_oh_message).show();
+			        $("#tsdemoDonationStripeForm").show();
+		        }
 	        }).fail(function() {
                 $("#tsdemoDonationSpinner").hide();
 		        $("#tsdemoDonationComplete").html(php_vars.uh_oh_message).show();
