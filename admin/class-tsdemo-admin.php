@@ -81,8 +81,8 @@ class Tsdemo_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/tsdemo-admin.css', array(), $this->version, 'all' );
+		 // TODO fix
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/tsdemo-admin.css', array(), time(), 'all' );
 
 	}
 
@@ -203,6 +203,32 @@ class Tsdemo_Admin {
 	
 	public function display_options_page() {
 		include_once 'partials/tsdemo-admin-display.php';
+	}
+	
+	/**
+	 * Registers a sidebar tools menu page for the admin dashboard.
+	 * 
+	 * @since 1.0.0
+	 */
+	 
+	public function add_tsdemo_menu_page() {
+		$this->plugin_menu_hook_suffix = add_management_page(
+			'TSDemo Donation Records',
+			'TSDemo Donations',
+			'manage_options',
+			$this->plugin_name,
+			array($this, 'display_tools_page')
+		);
+	}
+	
+	/**
+	 * Callback for the tools menu page, which picks its template out of the partials folder.
+	 *
+	 * @since 1.0.0
+	 */
+	
+	public function display_tools_page() {
+		include_once 'partials/tsdemo-admin-tools.php';
 	}
 	
 	/**

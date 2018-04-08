@@ -22,6 +22,10 @@ You must add your Stripe API publishable and secret API keys, found through the 
 
 Insert the shortcode \[tsdemo_donation_form\] into a page or post to display the donation form.
 
+### Records
+
+To see a list of donations made through the form, open the WordPress admin dashboard and look under the Tools menu for the TSDemo Donations page.
+
 ## Versioning
 
 This project follows semantic versioning. It is currently in version 1.0.0 and its first stable release would be 2.0.0.
