@@ -4,15 +4,19 @@ A plugin that displays a simple donation form on a WordPress site, using Stripe 
 
 ## Getting Started
 
-Install the plugin on your WordPress site via the admin panel and place the requisite keywords on a page or post.
+Install the plugin on your WordPress site via the admin panel, add your Stripe API keys in Settings -> TSDemo Donation Form, and insert the shortcode \[tsdemo_donation_form\] into the text of any page or post.
 
 ### Prerequisites
 
-WordPress 4.9 or later, running on a secure site (with a working https address).
+WordPress 4.9 or later, running on a secure site (with an https address).
 
 ### Installing
 
 Use the WP admin dashboard and upload a zipped version of this project. If you're unfamiliar with the process of installing a custom plugin, please see the [WordPress Codex](https://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation) entry for assistance.
+
+### Settings
+
+You must add your Stripe API publishable and secret API keys, found through the Stripe dashboard, to the settings for this plugin in order to make charges. You can find the plugin settings in the WordPress admin dashboard under the Settings sidebar menu, under TSDemo Donation Form.
 
 ### Using
 
@@ -20,7 +24,7 @@ Insert the shortcode \[tsdemo_donation_form\] into a page or post to display the
 
 ## Versioning
 
-This project follows semantic versioning. It is currently in version 1.0.0 and its first stable release will be 2.0.0.
+This project follows semantic versioning. It is currently in version 1.0.0 and its first stable release would be 2.0.0.
 
 ## Authors
 
@@ -28,7 +32,7 @@ This project follows semantic versioning. It is currently in version 1.0.0 and i
 
 ## License
 
-This project is licensed under the GPL v2 or later.
+This project is licensed under the GPL v2+.
 
 ## Credits
 
